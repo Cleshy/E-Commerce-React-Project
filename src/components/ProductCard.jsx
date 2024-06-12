@@ -1,5 +1,4 @@
 import React from "react";
-import Loading from "./Loading";
 
 const ProductCard = ({ data }) => {
   const checkProductDescriptionLength = (productDescription) => {
@@ -11,7 +10,7 @@ const ProductCard = ({ data }) => {
   };
 
   return (
-    <div className="border-rose-800 border-2 grid grid-cols-1 max-h-[60rem] lg:grid-cols-2 relative overflow-hidden">
+    <div className="shadow-xl rounded-2xl grid grid-cols-1 max-h-[60rem] lg:grid-cols-2 relative overflow-hidden">
       <span className="absolute bg-yellow-300 font-semibold py-1 px-10 -rotate-45 top-3 -left-10 z-10">
         On Sale
       </span>

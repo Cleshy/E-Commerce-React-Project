@@ -1,8 +1,8 @@
 const Sidebar = ({ categories }) => {
   return (
-    <div className="p-3">
-      <h3 className="text-2xl font-bold text-center">Categories</h3>
-      <div className="mt-5">
+    <div className="p-3 shadow-xl rounded-2xl">
+      <h3 className="text-2xl mt-3 font-bold text-center">Categories</h3>
+      <div className="mt-5 flex flex-col gap-3">
         {categories.map((category, index) => {
           return (
             <div key={index} className="flex gap-2">

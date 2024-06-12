@@ -10,7 +10,7 @@ const Navigation = () => {
         <Link className="text-3xl font-semibold" to="/">
           ShopEase
         </Link>
-        <ul className="flex items-center gap-16">
+        <ul className="flex items-center gap-12">
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -28,7 +28,7 @@ const Navigation = () => {
             </>
           ) : (
             <>
-              <button className="bg-rose-500 hover:bg-rose-600 duration-200 py-2 px-5">
+              <button className="bg-rose-500 hover:bg-rose-600 duration-200 py-2 px-5 rounded-full">
                 Login
               </button>
             </>

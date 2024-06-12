@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ProductList from "../components/ProductList";
 import Loading from "../components/Loading";
+import Hero from "../components/Hero";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -18,16 +19,8 @@ const Home = () => {
   }, []);
 
   return (
-    <section className="my-10 mx-10">
-      <div className="container mx-auto text-center">
-        <h1 className="text-5xl font-semibold">Welcome to ShopEase!</h1>
-        <p className="mt-5 mb-16 w-[80%] mx-auto">
-          ShopEase is your one-stop online store for all your shopping needs. We
-          offer a wide range of products from electronics to fashion, ensuring
-          quality and affordability. Discover an effortless shopping experience
-          with fast shipping and exceptional customer service.
-        </p>
-      </div>
+    <div className="my-10 mx-10">
+      <Hero />
       <div className="container mx-auto">
         {!loading ? (
           <ProductList products={products} />
@@ -37,7 +30,7 @@ const Home = () => {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };
 

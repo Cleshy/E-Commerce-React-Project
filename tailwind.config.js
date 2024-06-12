@@ -7,6 +7,9 @@ export default {
         "auto-fill-25": "repeat(auto-fill, minmax(25rem, 1fr))",
         "auto-fit-25": "repeat(auto-fit, minmax(25rem, 1fr))",
       },
+      fontFamily: {
+        custom: ["Montserrat", "sans - serif"],
+      },
     },
   },
   plugins: [],
