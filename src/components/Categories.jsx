@@ -1,4 +1,4 @@
-const Sidebar = ({ categories }) => {
+const Categories = ({ categories }) => {
   return (
     <div className="p-3 shadow-xl rounded-2xl">
       <h3 className="text-2xl mt-3 font-bold text-center">Categories</h3>
@@ -7,14 +7,14 @@ const Sidebar = ({ categories }) => {
           return (
             <div key={index} className="flex gap-2">
               <input
-                className="cursor-pointer"
+                className="cursor-pointer accent-rose-800"
                 type="checkbox"
-                value={category}
+                value={category.name}
                 key={index}
-                id={category}
+                id={category.name}
               />
-              <label className="cursor-pointer" htmlFor={category}>
-                {category}
+              <label className="cursor-pointer" htmlFor={category.name}>
+                {category.name}
               </label>
             </div>
           );
@@ -24,4 +24,4 @@ const Sidebar = ({ categories }) => {
   );
 };
 
-export default Sidebar;
+export default Categories;

@@ -1,7 +1,8 @@
 import HeroImg from "../assets/hero_img.svg";
 import { Link } from "react-router-dom";
+import Register from "../components/Register";
 
-const Hero = () => {
+const Hero = ({ onClick, closeModal }) => {
   return (
     <section className="container my-32 mx-auto grid grid-cols-2 gap-16">
       <div>
@@ -15,7 +16,10 @@ const Hero = () => {
           with fast shipping and exceptional customer service.
         </p>
         <div className="flex gap-4">
-          <button className="bg-rose-500 hover:bg-rose-600 duration-300 py-2 px-5 rounded-full text-white">
+          <button
+            onClick={() => onClick(<Register onClose={closeModal} />)}
+            className="bg-rose-500 hover:bg-rose-600 duration-300 py-2 px-5 rounded-full text-white"
+          >
             Registration
           </button>
           <Link

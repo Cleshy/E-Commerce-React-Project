@@ -12,7 +12,7 @@ const ProductList = ({ products, loading }) => {
   return (
     <div className="grid grid-cols-auto-fit-25 gap-10">
       {products.map((product) => (
-        <ProductCard key={product.id} data={product} />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
