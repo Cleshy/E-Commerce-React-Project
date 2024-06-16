@@ -11,6 +11,25 @@ const Products = () => {
   const [sortType, setSortType] = useState("price-desc");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setselectedCategories] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
+
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = productChanges.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+  const totalPages = Math.ceil(productChanges.length / productsPerPage);
+
+  const nextPage = () => {
+    setCurrentPage((prevCurrentPage) => prevCurrentPage + 1);
+  };
+
+  const prevPage = () => {
+    setCurrentPage((prevCurrentPage) => prevCurrentPage - 1);
+  };
 
   const handleCategoryChange = (selectedCategories) => {
     setselectedCategories((prevSelectedCategories) =>
@@ -56,6 +75,7 @@ const Products = () => {
     }
 
     setProductChanges(sorted);
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -78,10 +98,18 @@ const Products = () => {
     const response = await fetch("https://dummyjson.com/products?limit=0");
     const data = await response.json();
     setProducts(data.products);
+    localStorage.setItem("products", JSON.stringify(data.products));
   };
 
   useEffect(() => {
     fetchCategories();
+
+    const storedProducts = localStorage.getItem("products");
+
+    if (storedProducts) {
+      setProducts(JSON.parse(storedProducts));
+    }
+
     fetchAllProducts();
   }, []);
 
@@ -91,10 +119,12 @@ const Products = () => {
       <div className="grid grid-cols-6 gap-4 mt-8">
         <div className="col-span-1 row-span-full">
           {!loading ? (
-            <Categories
-              onCategoryChange={handleCategoryChange}
-              categories={categories}
-            />
+            <>
+              <Categories
+                onCategoryChange={handleCategoryChange}
+                categories={categories}
+              />
+            </>
           ) : (
             <Loading />
           )}
@@ -129,8 +159,31 @@ const Products = () => {
               </select>
             </div>
           </form>
-          <div className="grid auto-cols-fr mt-6">
-            <ProductList loading={loading} products={productChanges} />
+          <div className="grid auto-cols-fr my-6">
+            <ProductList loading={loading} products={currentProducts} />
+            <div className="mt-4 flex justify-center items-center gap-5">
+              <button
+                className={`mx-2 px-4 py-2 border rounded ${
+                  currentPage === 1 ? "bg-gray-200" : "bg-rose-600 text-white"
+                }`}
+                onClick={prevPage}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </button>
+              <p>{currentPage}</p>
+              <button
+                className={`mx-2 px-4 py-2 border rounded ${
+                  currentPage === totalPages
+                    ? "bg-gray-300"
+                    : "bg-rose-600 text-white"
+                }`}
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       </div>

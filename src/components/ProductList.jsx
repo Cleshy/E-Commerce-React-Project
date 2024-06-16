@@ -10,7 +10,7 @@ const ProductList = ({ products, loading }) => {
     );
   }
   return (
-    <div className="grid grid-cols-auto-fit-25 auto-rows-[25rem] gap-10">
+    <div className="grid grid-cols-auto-fit-25 auto-rows-[25rem] gap-10 mb-6">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

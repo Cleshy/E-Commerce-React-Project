@@ -11,12 +11,13 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="grid auto-rows-fr grid-cols-2 shadow-xl border border-gray-50 rounded-2xl">
+    <div className="grid auto-rows-fr grid-cols-2 m-5 shadow-xl border border-gray-200 rounded-2xl">
       <div className="h-[100%]">
         <img
           className="object-contain h-full p-8"
           src={product?.images[0]}
           alt={product.title}
+          loading="lazy"
         />
       </div>
       <div className="p-4 text-sm flex flex-col gap-2">
