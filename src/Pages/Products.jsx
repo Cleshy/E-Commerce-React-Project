@@ -6,12 +6,39 @@ import ProductList from "../components/ProductList.jsx";
 const Products = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
+  const [productChanges, setProductChanges] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortType, setSortType] = useState("price-desc");
-  const [sortedProducts, setSortedProducts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategories, setselectedCategories] = useState([]);
 
-  const handleProductsSort = (products, sortType) => {
-    const sorted = [...products];
+  const handleCategoryChange = (selectedCategories) => {
+    setselectedCategories((prevSelectedCategories) =>
+      prevSelectedCategories.includes(selectedCategories)
+        ? prevSelectedCategories.filter((c) => c !== selectedCategories)
+        : [...prevSelectedCategories, selectedCategories]
+    );
+  };
+
+  const handleProductsSortAndFilter = (
+    products,
+    sortType,
+    searchQuery,
+    selectedCategories
+  ) => {
+    let sorted = [...products];
+
+    if (searchQuery) {
+      sorted = sorted.filter((product) =>
+        product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (selectedCategories.length > 0) {
+      sorted = sorted.filter((product) =>
+        selectedCategories.includes(product.category)
+      );
+    }
 
     switch (sortType) {
       case "price-asc":
@@ -28,14 +55,17 @@ const Products = () => {
         sorted.sort((a, b) => b.price - a.price);
     }
 
-    console.log(sorted);
-
-    setSortedProducts(sorted);
+    setProductChanges(sorted);
   };
 
   useEffect(() => {
-    handleProductsSort(products, sortType);
-  }, [products, sortType]);
+    handleProductsSortAndFilter(
+      products,
+      sortType,
+      searchQuery,
+      selectedCategories
+    );
+  }, [products, sortType, searchQuery, selectedCategories]);
 
   const fetchCategories = async () => {
     const response = await fetch("https://dummyjson.com/products/categories");
@@ -45,7 +75,7 @@ const Products = () => {
   };
 
   const fetchAllProducts = async () => {
-    const response = await fetch("https://dummyjson.com/products");
+    const response = await fetch("https://dummyjson.com/products?limit=0");
     const data = await response.json();
     setProducts(data.products);
   };
@@ -60,7 +90,14 @@ const Products = () => {
       <h1 className="text-4xl text-center font-semibold">Products</h1>
       <div className="grid grid-cols-6 gap-4 mt-8">
         <div className="col-span-1 row-span-full">
-          {!loading ? <Categories categories={categories} /> : <Loading />}
+          {!loading ? (
+            <Categories
+              onCategoryChange={handleCategoryChange}
+              categories={categories}
+            />
+          ) : (
+            <Loading />
+          )}
         </div>
         <div className="col-start-2 col-span-full">
           <form className="shadow-inner border-2 rounded-2xl p-5 flex justify-between gap-16">
@@ -69,6 +106,7 @@ const Products = () => {
               <input
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Search for products..."
+                onChange={(e) => setSearchQuery(e.target.value)}
                 type="text"
               />
             </div>
@@ -92,7 +130,7 @@ const Products = () => {
             </div>
           </form>
           <div className="grid auto-cols-fr mt-6">
-            <ProductList loading={loading} products={sortedProducts} />
+            <ProductList loading={loading} products={productChanges} />
           </div>
         </div>
       </div>

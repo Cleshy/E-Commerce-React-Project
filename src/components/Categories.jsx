@@ -1,4 +1,4 @@
-const Categories = ({ categories }) => {
+const Categories = ({ onCategoryChange, categories }) => {
   return (
     <div className="p-3 shadow-inner border-2 rounded-2xl">
       <h3 className="text-2xl mt-3 font-bold text-center">Categories</h3>
@@ -10,6 +10,7 @@ const Categories = ({ categories }) => {
                 className="cursor-pointer accent-rose-800"
                 type="checkbox"
                 value={category.name}
+                onChange={() => onCategoryChange(category.slug)}
                 key={index}
                 id={category.name}
               />
