@@ -7,10 +7,10 @@ const SimpleSlider = ({ children }) => {
     dots: true,
     infinite: true,
     speed: 200,
-    slidesToShow: 3,
+    slidesToShow: 2,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2500,
+    autoplaySpeed: 3500,
     pauseOnHover: true,
   };
   return <Slider {...settings}>{children}</Slider>;

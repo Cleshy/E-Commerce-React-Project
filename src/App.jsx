@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
 import Products from "./Pages/Products";
+import Cart from "./Pages/Cart";
 import Product from "./Pages/Product";
 import Navigation from "./components/Navigation";
 import NotFound from "./Pages/NotFound";
@@ -40,6 +41,7 @@ const App = () => {
         />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

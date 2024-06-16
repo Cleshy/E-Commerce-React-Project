@@ -9,6 +9,21 @@ const Product = () => {
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
 
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(amount);
+  };
+
+  const getDate = (date) => {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   const getSingleProduct = async () => {
     const response = await fetch(`https://dummyjson.com/products/${id}`);
     const data = await response.json();
@@ -41,7 +56,7 @@ const Product = () => {
           <div className="flex flex-wrap gap-6 justify-center mt-auto">
             {product?.images.map((image, index) => (
               <LazyLoadImage
-                className="w-32 border rounded-xl"
+                className="w-32 border rounded-xl hover:scale-110 duration-200 cursor-pointer"
                 key={index}
                 effect="blur"
                 src={image}
@@ -68,7 +83,7 @@ const Product = () => {
           <h2 className="text-3xl font-semibold">{product.title}</h2>
           <p className="text-lg">{product.description}</p>
           <span className="text-2xl font-bold tracking-wider">
-            ${product.price}
+            {formatCurrency(product.price)}
           </span>
           <div className="flex gap-12 text-lg">
             <p className="flex gap-3">
@@ -117,12 +132,15 @@ const Product = () => {
                 className="flex flex-col gap-8 border border-rose-200 p-8 rounded-xl min-w-[25rem]"
               >
                 <div className="flex justify-between items-center">
-                  <span className="text-xl font-semibold italic">
+                  <span className="text-xl font-semibold italic text-rose-800">
                     {review.reviewerName}
                   </span>
                   <p>Rating: {review.rating}</p>
                 </div>
                 <p className="text-lg">{review.comment}</p>
+                <p className="ms-auto text-gray-300 text-sm">
+                  {getDate(review.date)}
+                </p>
               </div>
             );
           })}

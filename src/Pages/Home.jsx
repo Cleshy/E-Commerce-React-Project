@@ -22,9 +22,9 @@ const Home = ({ onClick, closeModal }) => {
   }, []);
 
   return (
-    <div className="my-10 mx-10">
+    <>
       <Hero onClick={onClick} closeModal={closeModal} />
-      <div className="container mx-auto">
+      <section className="container mx-auto my-32">
         {!loading ? (
           <SimpleSlider>
             {products.map((product) => (
@@ -36,8 +36,8 @@ const Home = ({ onClick, closeModal }) => {
             <Loading />
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </>
   );
 };
 

@@ -32,6 +32,7 @@ const Register = ({ onClose }) => {
     // </form>
     <>
       <div className="bg-white dark:bg-gray-900 rounded-lg px-8 py-6 max-w-md">
+        <h2>Registration</h2>
         <form action="#">
           <div className="mb-4">
             <label
