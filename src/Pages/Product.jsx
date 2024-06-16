@@ -50,9 +50,12 @@ const Product = () => {
       <div>
         <h3 className="text-2xl font-semibold text-center">Reviews</h3>
         <div className="flex justify-around mt-16">
-          {product.reviews.map((review) => {
+          {product.reviews.map((review, index) => {
             return (
-              <div className="flex flex-col gap-3">
+              <div
+                key={review.reviewerName + index}
+                className="flex flex-col gap-3"
+              >
                 <span className="text-xl font-semibold">
                   {review.reviewerName}
                 </span>

@@ -11,7 +11,7 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="shadow-inner border-2 rounded-2xl grid grid-cols-1 max-h-[60rem] lg:grid-cols-2 relative overflow-hidden">
+    <div className="grid auto-rows-fr grid-cols-2 shadow-xl border border-gray-50 rounded-2xl">
       <div className="h-[100%]">
         <img
           className="object-contain h-full p-8"

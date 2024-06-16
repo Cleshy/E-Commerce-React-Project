@@ -1,6 +1,6 @@
 const Categories = ({ categories }) => {
   return (
-    <div className="p-3 shadow-xl rounded-2xl">
+    <div className="p-3 shadow-inner border-2 rounded-2xl">
       <h3 className="text-2xl mt-3 font-bold text-center">Categories</h3>
       <div className="mt-5 flex flex-col gap-3">
         {categories.map((category, index) => {

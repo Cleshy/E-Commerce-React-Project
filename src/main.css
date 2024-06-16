@@ -9,3 +9,13 @@
     font-family: "Montserrat";
   }
 }
+
+.slick-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slick-slide div {
+  height: 100%;
+}
