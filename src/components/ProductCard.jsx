@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
@@ -22,18 +22,14 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="grid auto-rows-[22rem] grid-cols-2 m-5 shadow border border-gray-200 rounded-3xl">
-      <div className="h-[100%]">
-        <LazyLoadImage
-          src={product?.images[0]}
-          alt={product.title}
-          effect="blur"
-        />
-        {/* <img
-          className="object-contain h-full p-8"
-          src={product?.images[0]}
-          alt={product.title}
-          loading="lazy"
-        /> */}
+      <div className="max-h-full flex justify-center items-center">
+        <div className="max-h-full">
+          <LazyLoadImage
+            src={product?.images[0]}
+            alt={product.title}
+            effect="blur"
+          />
+        </div>
       </div>
       <div className="p-4 text-sm flex flex-col gap-2">
         <div className="flex flex-col gap-4">

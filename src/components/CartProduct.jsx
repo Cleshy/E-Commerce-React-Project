@@ -9,7 +9,7 @@ const CartProduct = ({
   product,
 }) => {
   return (
-    <div className="grid grid-cols-4 auto-rows-[10rem] text-sm">
+    <div className="grid grid-cols-4 gap-8 auto-rows-[10rem] text-sm">
       <img className="col-span-1 self-center w-52" src={product.images[0]} />
       <div className="col-span-3 w-full flex justify-between">
         <div className="flex flex-col">

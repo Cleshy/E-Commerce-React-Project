@@ -1,7 +1,10 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 import { useReducer } from "react";
 
 const CartContext = createContext(null);
+
+const PROMO_CODE = "SHOPEASE2024";
+const DISCOUNT_PERCENTAGE = 0.05;
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -49,9 +52,28 @@ const cartReducer = (state, action) => {
 // Cart provider komponens
 export const CartProvider = ({ children }) => {
   const [cart, dispatch] = useReducer(cartReducer, []);
+  const [discount, setDiscount] = useState(0);
+
+  const applyPromoCode = (input) => {
+    if (input === PROMO_CODE) {
+      setDiscount(DISCOUNT_PERCENTAGE);
+      return true;
+    }
+    setDiscount(0);
+    return false;
+  };
 
   return (
-    <CartContext.Provider value={{ cart, dispatch }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        dispatch,
+        discount,
+        applyPromoCode,
+        PROMO_CODE,
+        DISCOUNT_PERCENTAGE,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
