@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import CartProduct from "../components/CartProduct";
+import EmptyCart from "../components/EmptyCart";
 import { useCart } from "../Context/CartProvider";
 import { formatCurrency } from "../utils/utilityFunctions";
 import { Link } from "react-router-dom";
@@ -65,24 +66,26 @@ const Cart = () => {
   const hidePromoCodeMessage = () => {
     setTimeout(() => {
       setShowPromoCodeMessage(false);
-    }, 6000);
+    }, 3000);
   };
 
   return (
-    <div className="container mx-auto my-16">
-      <h2 className="text-3xl font-semibold">Shopping Cart</h2>
+    <div className="container mx-auto mt-40 my-16">
       {cart.length !== 0 && (
-        <button
-          onClick={() => clearCart()}
-          className="text-lg mt-6 font-semibold text-rose-600"
-        >
-          Clear cart
-        </button>
+        <>
+          <h2 className="text-[2.5rem] font-extrabold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-rose-700 text-center mb-8">
+            Shopping Cart
+          </h2>
+          <button
+            onClick={() => clearCart()}
+            className="text-lg mt-6 font-semibold text-rose-600"
+          >
+            Clear cart
+          </button>
+        </>
       )}
       {cart.length === 0 ? (
-        <p className="text-2xl font-semibold text-center mt-16">
-          Your cart is empty!
-        </p>
+        <EmptyCart />
       ) : (
         <div className="grid grid-cols-5 gap-24">
           <div className="col-span-3 mt-16 flex flex-col gap-5">
@@ -102,10 +105,14 @@ const Cart = () => {
           <div className="col-span-2 mt-16">
             <div className="flex flex-col gap-2">
               {showPromoCodeMessage && promoCodeValid && (
-                <p>Promo Code applied!</p>
+                <p className="font-semibold text-green-600">
+                  Promo Code applied!
+                </p>
               )}
               {showPromoCodeMessage && !promoCodeValid && (
-                <p>Invalid promo code!</p>
+                <p className="font-semibold text-red-600">
+                  Invalid promo code!
+                </p>
               )}
               <form onSubmit={handleSubmit}>
                 <input
@@ -129,9 +136,12 @@ const Cart = () => {
                 {formatCurrency(calculateTotalPrice().toFixed(2))}
               </p>
               {promoCodeValid && promoCodeApplied && (
-                <div className="flex justify-between my-5">
-                  <p className="font-semibold tracking-wider">{PROMO_CODE}</p>
-                  <p>{DISCOUNT_PERCENTAGE * 100}%</p>
+                <div className="flex flex-col gap-2 my-5">
+                  <p className="font-bold">Active Promo Codes:</p>
+                  <div className="flex justify-between">
+                    <p className="font-semibold tracking-wider">{PROMO_CODE}</p>
+                    <p>{DISCOUNT_PERCENTAGE * 100}%</p>
+                  </div>
                 </div>
               )}
               <p className="text-gray-400 mt-2">

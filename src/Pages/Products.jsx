@@ -114,9 +114,11 @@ const Products = () => {
   }, []);
 
   return (
-    <div className="container mx-auto mt-8">
-      <h1 className="text-4xl text-center font-semibold">Products</h1>
-      <div className="grid grid-cols-6 gap-4 mt-8">
+    <section className="container mx-auto mt-36">
+      <h2 className="text-[3rem] text-center font-extrabold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-rose-700">
+        Products
+      </h2>
+      <div className="grid grid-cols-6 gap-4 mt-14">
         <div className="col-span-1 row-span-full">
           {!loading ? (
             <>
@@ -187,7 +189,7 @@ const Products = () => {
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

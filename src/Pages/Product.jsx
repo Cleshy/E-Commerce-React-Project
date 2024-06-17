@@ -50,7 +50,7 @@ const Product = () => {
   }
 
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto mt-44">
       <div className="mt-16 shadow-2xl m-6 p-10 border rounded-2xl grid grid-cols-5 gap-16">
         <div className="col-span-2 flex flex-col items-center">
           <LazyLoadImage

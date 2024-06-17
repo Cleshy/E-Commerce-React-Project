@@ -4,9 +4,9 @@ import Register from "../components/Register";
 
 const Hero = ({ onClick, closeModal }) => {
   return (
-    <section className="container my-32 mx-auto grid grid-cols-2 gap-16">
+    <section className="container mt-52 mb-32 mx-auto grid grid-cols-2 gap-16">
       <div>
-        <h1 className="text-5xl font-bold tracking-wider">
+        <h1 className="text-5xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-rose-700">
           Welcome to ShopEase!
         </h1>
         <p className="mt-6 mb-8 text-justify leading-7 text-lg">

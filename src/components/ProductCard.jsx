@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="grid auto-rows-[22rem] grid-cols-2 m-5 shadow border border-gray-200 rounded-3xl">
-      <div className="max-h-full flex justify-center items-center">
+      <div className="max-h-full flex justify-center items-center z-0">
         <div className="max-h-full">
           <LazyLoadImage
             src={product?.images[0]}

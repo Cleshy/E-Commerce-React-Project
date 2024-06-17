@@ -12,7 +12,7 @@ const Navigation = ({ onClick, closeModal }) => {
   const [loginStatus, setLoginStatus] = useState("");
 
   return (
-    <header className="bg-rose-800 p-10 text-white">
+    <header className="bg-rose-800 py-6 text-white fixed top-0 w-full z-50">
       <nav className="container mx-auto flex justify-between items-center relative">
         <Link className="text-3xl font-semibold" to="/">
           ShopEase
