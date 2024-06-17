@@ -3,11 +3,17 @@ import { useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useCart } from "../Context/CartProvider";
 
 const Product = () => {
+  const { dispatch } = useCart();
   const { id } = useParams();
   const [product, setProduct] = useState();
   const [loading, setLoading] = useState(true);
+
+  const addToCart = (product) => {
+    dispatch({ type: "ADD_TO_CART", payload: product });
+  };
 
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
@@ -76,7 +82,10 @@ const Product = () => {
             <span className="bg-rose-600 text-white rounded-full px-4 py-2">
               {product.category}
             </span>
-            <button className="bg-rose-500 hover:bg-rose-800 text-white duration-200 px-5 py-3 rounded-full">
+            <button
+              onClick={() => addToCart(product)}
+              className="bg-rose-500 hover:bg-rose-800 text-white duration-200 px-5 py-3 rounded-full"
+            >
               Add to cart
             </button>
           </div>

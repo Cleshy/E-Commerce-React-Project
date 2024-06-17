@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "./Login";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
+import { useCart } from "../Context/CartProvider";
 
 const Navigation = ({ onClick, closeModal }) => {
+  const { cart } = useCart();
+
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
   const [loginStatus, setLoginStatus] = useState("");
 
   return (
@@ -49,9 +54,11 @@ const Navigation = ({ onClick, closeModal }) => {
             <li className="text-2xl cursor-pointer">
               <Link to="/cart">
                 <FaShoppingCart className="relative hover:text-rose-400 duration-150" />
-                <span className="absolute text-lg w-9 h-9 bg-rose-200 text-gray-800 font-semibold flex justify-center items-center rounded-full -top-5 -right-11">
-                  69
-                </span>
+                {totalItems > 0 && (
+                  <span className="absolute text-sm w-6 h-6 bg-rose-200 text-gray-800 font-semibold flex justify-center items-center rounded-full -top-2 -right-7">
+                    {totalItems}
+                  </span>
+                )}
               </Link>
             </li>
           </>

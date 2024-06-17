@@ -2,8 +2,16 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import { useCart } from "../Context/CartProvider";
+import { formatCurrency } from "../utils/utilityFunctions";
 
 const ProductCard = ({ product }) => {
+  const { dispatch } = useCart();
+
+  const addToCart = (product) => {
+    dispatch({ type: "ADD_TO_CART", payload: product });
+  };
+
   const checkProductDescriptionLength = (productDescription) => {
     if (productDescription.length > 80) {
       return productDescription.slice(0, 80) + "...";
@@ -38,7 +46,9 @@ const ProductCard = ({ product }) => {
           </p>
         </div>
         <div className="flex flex-col gap-5 mt-auto">
-          <span className="font-bold text-lg">${product.price}</span>
+          <span className="font-bold text-lg">
+            {formatCurrency(product.price)}
+          </span>
           <div className="flex flex-col gap-2 justify-end">
             <Link
               to={`/product/${product?.id}`}
@@ -46,7 +56,10 @@ const ProductCard = ({ product }) => {
             >
               Read more
             </Link>
-            <button className="bg-rose-700 hover:bg-rose-800 text-white duration-200 px-3 py-2 rounded-full">
+            <button
+              onClick={() => addToCart(product)}
+              className="bg-rose-700 hover:bg-rose-800 text-white duration-200 px-3 py-2 rounded-full"
+            >
               Add to cart
             </button>
           </div>
