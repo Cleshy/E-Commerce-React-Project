@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useCart } from "../Context/CartProvider";
+import { useCart } from "../context/CartProvider";
 import { formatCurrency } from "../utils/utilityFunctions";
 
 const ProductCard = ({ product }) => {

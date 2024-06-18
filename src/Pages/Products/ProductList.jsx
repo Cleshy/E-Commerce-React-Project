@@ -1,5 +1,5 @@
-import ProductCard from "./ProductCard";
-import Loading from "./Loading";
+import ProductCard from "../../components/ProductCard";
+import Loading from "../../components/Loading";
 
 const ProductList = ({ products, loading }) => {
   if (loading) {

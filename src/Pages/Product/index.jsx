@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Loading from "../components/Loading";
+import Loading from "../../components/Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useCart } from "../Context/CartProvider";
+import { useCart } from "../../context/CartProvider";
 
 const Product = () => {
   const { dispatch } = useCart();

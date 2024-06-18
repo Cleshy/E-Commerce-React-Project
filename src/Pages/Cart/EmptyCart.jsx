@@ -1,4 +1,4 @@
-import emptyCartSVG from "../assets/empty_cart.svg";
+import emptyCartSVG from "../../assets/empty_cart.svg";
 import { Link } from "react-router-dom";
 
 const EmptyCart = () => {

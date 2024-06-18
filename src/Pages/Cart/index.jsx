@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
-import CartProduct from "../components/CartProduct";
-import EmptyCart from "../components/EmptyCart";
-import { useCart } from "../Context/CartProvider";
-import { formatCurrency } from "../utils/utilityFunctions";
+import CartProduct from "../Cart/CartProduct";
+import EmptyCart from "../Cart/EmptyCart";
+import { useCart } from "../../context/CartProvider";
+import { formatCurrency } from "../../utils/utilityFunctions";
 import { Link } from "react-router-dom";
 
 const Cart = () => {

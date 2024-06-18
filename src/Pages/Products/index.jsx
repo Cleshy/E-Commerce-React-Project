@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Categories from "../components/Categories.jsx";
-import Loading from "../components/Loading.jsx";
-import ProductList from "../components/ProductList.jsx";
+import Categories from "./Categories.jsx";
+import Loading from "../../components/Loading.jsx";
+import ProductList from "./ProductList.jsx";
 
 const Products = () => {
   const [categories, setCategories] = useState([]);

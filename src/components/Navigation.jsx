@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Login from "./Login";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
-import { useCart } from "../Context/CartProvider";
+import { useCart } from "../context/CartProvider";
 
-const Navigation = ({ onClick, closeModal }) => {
+const Navigation = () => {
   const { cart } = useCart();
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -42,12 +41,12 @@ const Navigation = ({ onClick, closeModal }) => {
             </>
           ) : (
             <>
-              <button
-                onClick={() => onClick(<Login onClose={closeModal} />)}
+              <Link
+                to="/login"
                 className="bg-rose-500 hover:bg-rose-600 duration-200 py-2 px-5 rounded-full"
               >
                 Login
-              </button>
+              </Link>
             </>
           )}
           <>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import ProductList from "../components/ProductList";
-import Loading from "../components/Loading";
-import Hero from "../components/Hero";
-import SimpleSlider from "../components/SimpleSlider";
-import ProductCard from "../components/ProductCard";
+import ProductList from "../Products/ProductList";
+import Loading from "../../components/Loading";
+import Hero from "./Hero";
+import SimpleSlider from "./SimpleSlider";
+import ProductCard from "../../components/ProductCard";
 
 const Home = ({ onClick, closeModal }) => {
   const [products, setProducts] = useState([]);
