@@ -12,7 +12,7 @@ const EmptyCart = () => {
         Back to{" "}
         <Link
           to="/products"
-          className="font-bold text-rose-600 hover:text-rose-400"
+          className="font-bold text-rose-700 hover:text-rose-500 hover:border-b-2 border-b-rose-500"
         >
           Shopping &rarr;
         </Link>

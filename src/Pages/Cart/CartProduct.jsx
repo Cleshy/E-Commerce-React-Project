@@ -13,7 +13,10 @@ const CartProduct = ({
       <img className="col-span-1 self-center w-52" src={product.images[0]} />
       <div className="col-span-3 w-full flex justify-between">
         <div className="flex flex-col">
-          <Link to={`/product/${product.id}`} className="cursor-pointer">
+          <Link
+            to={`/product/${product.id}`}
+            className="cursor-pointer font-semibold text-rose-900 hover:text-rose-600"
+          >
             {product.title}
           </Link>
           <p className="font-semibold mt-auto">

@@ -1,47 +1,22 @@
-import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useCart } from "../../context/CartProvider";
 import Loading from "../../components/Loading";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
-import { useCart } from "../../context/CartProvider";
+import { formatCurrency } from "../../utils/formatters";
+import useFetchProduct from "../../hooks/useFetchProduct";
+import Review from "./Review";
 
 const Product = () => {
+  const { productID } = useParams();
   const { dispatch } = useCart();
-  const { id } = useParams();
-  const [product, setProduct] = useState();
-  const [loading, setLoading] = useState(true);
+  const { product, loading: productLoading } = useFetchProduct(productID);
 
   const addToCart = (product) => {
     dispatch({ type: "ADD_TO_CART", payload: product });
   };
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    }).format(amount);
-  };
-
-  const getDate = (date) => {
-    const dateObj = new Date(date);
-    const year = dateObj.getFullYear();
-    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
-    const day = String(dateObj.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
-
-  const getSingleProduct = async () => {
-    const response = await fetch(`https://dummyjson.com/products/${id}`);
-    const data = await response.json();
-    setProduct(data);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    getSingleProduct();
-  }, []);
-
-  if (loading) {
+  if (productLoading) {
     return (
       <div className="mt-10">
         <Loading />
@@ -58,7 +33,6 @@ const Product = () => {
             src={product?.images[0]}
             alt={`Image of ${product.title}`}
           />
-          {/* <img src={product?.images[0]} alt={`Image of ${product.title}`} /> */}
           <div className="flex flex-wrap gap-6 justify-center mt-auto">
             {product?.images.map((image, index) => (
               <LazyLoadImage
@@ -68,12 +42,6 @@ const Product = () => {
                 src={image}
                 alt={`Image of ${product.title}`}
               />
-              // <img
-              //   className="w-52 border rounded-xl"
-              //   key={index}
-              //   src={image}
-              //   alt={`Product photo ${index + 1}`}
-              // />
             ))}
           </div>
         </div>
@@ -134,24 +102,8 @@ const Product = () => {
           Reviews
         </h3>
         <div className="flex justify-around mt-16">
-          {product.reviews.map((review, index) => {
-            return (
-              <div
-                key={review.reviewerName + index}
-                className="flex flex-col gap-8 border border-rose-200 p-8 rounded-xl min-w-[25rem]"
-              >
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-semibold italic text-rose-800">
-                    {review.reviewerName}
-                  </span>
-                  <p>Rating: {review.rating}</p>
-                </div>
-                <p className="text-lg">{review.comment}</p>
-                <p className="ms-auto text-gray-300 text-sm">
-                  {getDate(review.date)}
-                </p>
-              </div>
-            );
+          {product.reviews.map((review) => {
+            return <Review review={review} />;
           })}
         </div>
       </div>

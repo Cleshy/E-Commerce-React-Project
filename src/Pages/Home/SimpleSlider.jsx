@@ -6,7 +6,7 @@ const SimpleSlider = ({ children }) => {
   var settings = {
     dots: true,
     infinite: true,
-    speed: 200,
+    speed: 500,
     slidesToShow: 2,
     slidesToScroll: 1,
     autoplay: true,
