@@ -28,12 +28,14 @@ const Product = () => {
     <section className="container mx-auto mt-44">
       <div className="mt-16 shadow-2xl m-6 p-10 border rounded-2xl grid grid-cols-5 gap-16">
         <div className="col-span-2 flex flex-col items-center">
+          {/* Lazy load the product thumbnail for better user experience. */}
           <LazyLoadImage
             effect="blur"
             src={product?.images[0]}
             alt={`Image of ${product.title}`}
           />
           <div className="flex flex-wrap gap-6 justify-center mt-auto">
+            {/* Lazy load the product images for better user experience. */}
             {product?.images.map((image, index) => (
               <LazyLoadImage
                 className="w-32 border rounded-xl hover:scale-110 duration-200 cursor-pointer"
