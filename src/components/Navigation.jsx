@@ -5,10 +5,9 @@ import { useCart } from "../context/CartProvider";
 
 const Navigation = () => {
   const { cart } = useCart();
+  const isLoggedIn = true;
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
-
-  const [loginStatus, setLoginStatus] = useState("");
 
   return (
     <header className="bg-rose-800 py-6 text-white fixed top-0 w-full z-50">
@@ -33,7 +32,7 @@ const Navigation = () => {
               Products
             </Link>
           </li>
-          {loginStatus ? (
+          {isLoggedIn ? (
             <>
               <li className="text-2xl cursor-pointer">
                 <FaUser className="hover:text-rose-400 duration-150" />
