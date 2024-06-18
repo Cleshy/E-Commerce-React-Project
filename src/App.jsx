@@ -7,20 +7,23 @@ import Products from "./Pages/Products/";
 import Cart from "./Pages/Cart";
 import Navigation from "./components/Navigation";
 import NotFound from "./Pages/NotFound";
+import { CartProvider } from "./context/CartProvider.jsx";
 
 const App = () => {
   return (
     <>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/products" element={<Products />} />
-        <Route path="/product/:id" element={<Product />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <CartProvider>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/product/:id" element={<Product />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </CartProvider>
     </>
   );
 };

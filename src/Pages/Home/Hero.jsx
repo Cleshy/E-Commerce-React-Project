@@ -30,7 +30,10 @@ const Hero = () => {
         </div>
       </div>
       <div className="w-[75%] mx-auto">
-        <img src={HeroImg} alt="" />
+        <img
+          src={HeroImg}
+          alt="An illustration. A girl holds a box infront of the browser."
+        />
       </div>
     </section>
   );

@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import Categories from "./Categories.jsx";
 import Loading from "../../components/Loading.jsx";
 import ProductList from "./ProductList.jsx";
+import useFetchProducts from "../../hooks/useFetchProducts.jsx";
+import useFetchCategories from "../../hooks/useFetchCategories.jsx";
 
 const Products = () => {
-  const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]);
+  const { products, loading: productsLoading } = useFetchProducts();
+  const { categories, loading: categoriesLoading } = useFetchCategories();
   const [productChanges, setProductChanges] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [sortType, setSortType] = useState("price-desc");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategories, setselectedCategories] = useState([]);
@@ -87,32 +88,6 @@ const Products = () => {
     );
   }, [products, sortType, searchQuery, selectedCategories]);
 
-  const fetchCategories = async () => {
-    const response = await fetch("https://dummyjson.com/products/categories");
-    const data = await response.json();
-    setCategories(data);
-    setLoading(false);
-  };
-
-  const fetchAllProducts = async () => {
-    const response = await fetch("https://dummyjson.com/products?limit=0");
-    const data = await response.json();
-    setProducts(data.products);
-    localStorage.setItem("products", JSON.stringify(data.products));
-  };
-
-  useEffect(() => {
-    fetchCategories();
-
-    const storedProducts = localStorage.getItem("products");
-
-    if (storedProducts) {
-      setProducts(JSON.parse(storedProducts));
-    }
-
-    fetchAllProducts();
-  }, []);
-
   return (
     <section className="container mx-auto mt-36">
       <h2 className="text-[3rem] text-center font-extrabold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-rose-700">
@@ -120,7 +95,7 @@ const Products = () => {
       </h2>
       <div className="grid grid-cols-6 gap-4 mt-14">
         <div className="col-span-1 row-span-full">
-          {!loading ? (
+          {!categoriesLoading ? (
             <>
               <Categories
                 onCategoryChange={handleCategoryChange}
@@ -162,7 +137,7 @@ const Products = () => {
             </div>
           </form>
           <div className="grid auto-cols-fr my-6">
-            <ProductList loading={loading} products={currentProducts} />
+            <ProductList loading={productsLoading} products={currentProducts} />
             <div className="mt-4 flex justify-center items-center gap-5">
               <button
                 className={`mx-2 px-4 py-2 border rounded ${

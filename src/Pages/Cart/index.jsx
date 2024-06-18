@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import CartProduct from "../Cart/CartProduct";
 import EmptyCart from "../Cart/EmptyCart";
 import { useCart } from "../../context/CartProvider";
-import { formatCurrency } from "../../utils/utilityFunctions";
+import { formatCurrency } from "../../utils/formatters";
 import { Link } from "react-router-dom";
 
 const Cart = () => {
