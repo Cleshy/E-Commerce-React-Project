@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
 const Login = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const { login } = useAuth();
 
   const handleInputChange = (e) => {
     setFormData({
@@ -19,7 +20,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3001/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -31,11 +32,8 @@ const Login = () => {
         throw new Error("Network response was not ok");
       }
 
-      const result = await response.json();
-
-      if (result.message === "Success") {
-        navigate("/");
-      }
+      const data = await response.json();
+      login(data.token);
     } catch (error) {
       console.log("Login error:", error.message);
     }

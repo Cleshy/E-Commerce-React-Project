@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
+import { LuLogOut } from "react-icons/lu";
 import { useCart } from "../context/CartProvider";
+import { useAuth } from "../context/AuthProvider";
 
 const Navigation = () => {
   const { cart } = useCart();
-  const isLoggedIn = true;
+  const { isLoggedIn, logout } = useAuth();
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -36,6 +38,12 @@ const Navigation = () => {
             <>
               <li className="text-2xl cursor-pointer">
                 <FaUser className="hover:text-rose-400 duration-150" />
+              </li>
+              <li className="text-2xl cursor-pointer">
+                <LuLogOut
+                  onClick={logout}
+                  className="hover:text-rose-400 duration-150"
+                />
               </li>
             </>
           ) : (
