@@ -10,7 +10,7 @@ const useFetchProduct = (id) => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(`${PRODUCT_URL}${id}`);
-        if (!response) {
+        if (!response.ok) {
           throw new Error("Failed to fetch products!");
         }
         const data = await response.json();

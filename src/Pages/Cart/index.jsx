@@ -90,16 +90,15 @@ const Cart = () => {
         <div className="grid grid-cols-5 gap-24">
           <div className="col-span-3 mt-16 flex flex-col gap-5">
             {cart.map((product, index) => (
-              <>
+              <React.Fragment key={product.id + index}>
                 <CartProduct
-                  key={product.id + index}
                   increaseQuantity={increaseQuantity}
                   decreaseQuantity={decreaseQuantity}
                   removeFromCart={removeFromCart}
                   product={product}
                 />
                 <hr />
-              </>
+              </React.Fragment>
             ))}
           </div>
           <div className="col-span-2 mt-16">
