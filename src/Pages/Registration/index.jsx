@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
 const Registration = () => {
+  const { login } = useAuth();
+
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    role: 1,
   });
 
   const handleInputChange = (e) => {
@@ -32,9 +36,12 @@ const Registration = () => {
         throw new Error("Network response was not ok");
       }
 
-      const data = await response.json();
-      console.log("Registration successfull:", data);
-      navigate("/login");
+      const userData = await response.json();
+      console.log(userData);
+
+      if (userData.message === "Registered successfully!") {
+        login(userData.token);
+      }
     } catch (error) {
       console.log("Registration error:", error.message);
     }

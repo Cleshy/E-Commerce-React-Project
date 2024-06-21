@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 
 // Environment Variables from the .env file
 const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET;
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
@@ -43,7 +44,7 @@ app.use(bodyParser.json()); // JSON formátumú adatok feldolgozására szolgál
 app.use(bodyParser.urlencoded({ extended: true })); // HTML formok küldik (általában)
 
 app.post("/register", async (request, response) => {
-  const { name, email, password } = request.body;
+  const { name, email, password, role } = request.body;
 
   if (!name || !email || !password) {
     return response.status(400).send("Name, E-mail and password are required.");
@@ -51,15 +52,53 @@ app.post("/register", async (request, response) => {
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
-    const query = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+    const query =
+      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
 
-    connection.query(query, [name, email, hashedPassword], (error, results) => {
-      if (error) {
-        console.error("Error inserting user into the database:", error);
-        return response.status(500).send("Error registering user");
+    connection.query(
+      query,
+      [name, email, hashedPassword, role],
+      (error, results) => {
+        if (error) {
+          console.error("Error inserting user into the database:", error);
+          return response.status(500).send("Error registering user");
+        }
+
+        const userId = results.insertId;
+
+        const selectQuery = "SELECT * FROM users WHERE id = ?";
+        connection.query(selectQuery, [userId], (selectError, userResults) => {
+          if (selectError) {
+            console.error(
+              "Error fetching user from the database:",
+              selectError
+            );
+            return response.status(500).send("Error fetching registered user");
+          }
+
+          if (userResults.length === 0) {
+            return response
+              .status(404)
+              .send("User not found after registration");
+          }
+
+          const user = userResults[0];
+
+          // Generáljunk JWT tokent
+          const token = jwt.sign(
+            { userId: user.id, userRole: user.role },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+          );
+
+          // Visszaadjuk a felhasználó adatait és a tokent
+          response.status(201).send({
+            message: "Registered successfully!",
+            token,
+          });
+        });
       }
-      response.status(201).send({ message: "Registered successfully!" });
-    });
+    );
   } catch (error) {
     console.error("Error hashing password:", error);
     response.status(500).send("Internal server error");
@@ -92,8 +131,8 @@ app.post("/login", (request, response) => {
       }
 
       const token = jwt.sign(
-        { userId: user.id, email: user.email },
-        "secret_key",
+        { userId: user.id, userRole: user.role },
+        JWT_SECRET,
         { expiresIn: "1h" }
       );
       response.status(200).json({ token });

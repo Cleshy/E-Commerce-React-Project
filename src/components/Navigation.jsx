@@ -8,7 +8,6 @@ import Dropdown from "./Dropdown";
 const Navigation = () => {
   const { cart } = useCart();
   const { isLoggedIn, logout, userRole } = useAuth();
-  const [showDropdownItems, setShowDropDownItems] = useState(false);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -34,12 +33,7 @@ const Navigation = () => {
           {isLoggedIn ? (
             <>
               <li>
-                <Dropdown
-                  userRole={userRole}
-                  logout={logout}
-                  showItems={showDropdownItems}
-                  setShowItems={setShowDropDownItems}
-                />
+                <Dropdown userRole={userRole} logout={logout} />
               </li>
             </>
           ) : (
