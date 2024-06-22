@@ -43,7 +43,7 @@ ezért van szükség a bodyParser middleware-re.
 app.use(bodyParser.json()); // JSON formátumú adatok feldolgozására szolgál
 app.use(bodyParser.urlencoded({ extended: true })); // HTML formok küldik (általában)
 
-app.post("/register", async (request, response) => {
+app.post("/signup", async (request, response) => {
   const { name, email, password, role } = request.body;
 
   if (!name || !email || !password) {
@@ -53,7 +53,7 @@ app.post("/register", async (request, response) => {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const query =
-      "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+      "INSERT INTO users (name, e-mail, password, role) VALUES (?, ?, ?, ?)";
 
     connection.query(
       query,
@@ -109,7 +109,7 @@ app.post("/login", (request, response) => {
   const { email, password } = request.body;
 
   try {
-    const query = "SELECT * FROM users WHERE email = ?";
+    const query = "SELECT * FROM users WHERE `e-mail` = ?";
     connection.query(query, [email], async (err, results) => {
       if (err) {
         console.error("Error selecting user from database:", err);
@@ -141,6 +141,22 @@ app.post("/login", (request, response) => {
     console.error("Error logging in:", error);
     response.status(500).send({ message: "Internal server error" });
   }
+});
+
+app.get("/profile", (request, response) => {
+  const userId = request.headers["user-id"];
+
+  try {
+    const query =
+      "SELECT id, name, `e-mail`, phone, zip, city, address FROM users WHERE id = ?";
+    connection.query(query, [userId], (error, result) => {
+      if (error) {
+        response.status(400).send("Hiba a queryben.");
+      }
+      const user = result[0];
+      response.status(200).send(user);
+    });
+  } catch (error) {}
 });
 
 app.listen(PORT, () => {

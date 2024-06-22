@@ -59,7 +59,7 @@ const Login = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="name@company.com"
                   onChange={handleInputChange}
                   required
@@ -88,16 +88,16 @@ const Login = () => {
               >
                 Login
               </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don't have an account?{" "}
-                <Link
-                  to="/registration"
-                  className="font-semibold text-rose-700 hover:underline"
-                >
-                  Register here
-                </Link>
-              </p>
             </form>
+            <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="font-semibold text-rose-700 hover:underline"
+              >
+                Sign up here
+              </Link>
+            </p>
           </div>
         </div>
       </div>

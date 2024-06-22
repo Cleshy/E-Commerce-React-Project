@@ -12,6 +12,8 @@ import { CartProvider } from "./context/CartProvider.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
 import Orders from "./Pages/Orders/index.jsx";
 import Users from "./Pages/Users/index.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
 
 const App = () => {
   return (
@@ -20,15 +22,25 @@ const App = () => {
         <CartProvider>
           <Navigation />
           <Routes>
+            {/* Static routes */}
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/myorders" element={<Orders />} />
-            <Route path="/registration" element={<Registration />} />
+            <Route path="/signin" element={<Login />} />
+            <Route path="/signup" element={<Registration />} />
             <Route path="/products" element={<Products />} />
-            <Route path="/product/:productID" element={<Product />} />
             <Route path="/cart" element={<Cart />} />
+            {/* Dynamic routes (ex: productID) */}
+            <Route path="/product/:productID" element={<Product />} />
+            {/* Private routes */}
+            <Route
+              path="/profile"
+              element={<PrivateRoute element={<Profile />} />}
+            />
+            <Route
+              path="/myorders"
+              element={<PrivateRoute element={<Orders />} />}
+            />
+            <Route path="/users" element={<AdminRoute element={<Users />} />} />
+            {/* Not found route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </CartProvider>

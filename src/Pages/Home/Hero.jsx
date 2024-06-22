@@ -16,10 +16,10 @@ const Hero = () => {
         </p>
         <div className="flex gap-6">
           <Link
-            to="/registration"
+            to="/signup"
             className="border-2 border-rose-500 hover:border-rose-600 bg-rose-500 hover:bg-rose-600 duration-300 py-2 px-5 rounded-full text-white"
           >
-            Registration
+            Sign Up
           </Link>
           <Link
             to="/products"

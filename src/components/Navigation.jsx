@@ -39,8 +39,8 @@ const Navigation = () => {
           ) : (
             <>
               <Link
-                to="/login"
-                className="bg-rose-500 hover:bg-rose-600 duration-200 py-1 px-4 rounded-full"
+                to="/signin"
+                className="bg-rose-500 hover:bg-rose-600 duration-200 py-2 px-5 rounded-full"
               >
                 Sign In
               </Link>

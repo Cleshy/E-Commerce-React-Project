@@ -24,7 +24,7 @@ const Registration = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/register", {
+      const response = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -37,7 +37,6 @@ const Registration = () => {
       }
 
       const userData = await response.json();
-      console.log(userData);
 
       if (userData.message === "Registered successfully!") {
         login(userData.token);
@@ -117,7 +116,7 @@ const Registration = () => {
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Already have an account?{" "}
                 <Link
-                  to="/login"
+                  to="/signin"
                   className="font-semibold text-rose-700 hover:underline"
                 >
                   Login here

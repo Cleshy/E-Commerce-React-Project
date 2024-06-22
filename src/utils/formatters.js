@@ -12,3 +12,7 @@ export const formatDate = (date) => {
   const day = String(dateObj.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
+
+export const firstCharacterToUppercase = (string) => {
+  return string[0].toUpperCase() + string.slice(1);
+};
