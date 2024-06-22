@@ -44,7 +44,7 @@ const Profile = () => {
               id="name"
               name="name"
               defaultValue={user.name}
-              disabled={inputDisabled}
+              disabled
             />
           </div>
           <div className="mt-7">
@@ -57,7 +57,7 @@ const Profile = () => {
               id="e-mail"
               name="name"
               defaultValue={user["e-mail"]}
-              disabled={inputDisabled}
+              disabled
             />
           </div>
           <div className="mt-7">
@@ -69,7 +69,7 @@ const Profile = () => {
               type="text"
               id="phone"
               name="name"
-              defaultValue={user.phone || "empty"}
+              placeholder={user.phone || "empty"}
               disabled={inputDisabled}
             />
           </div>
@@ -83,7 +83,7 @@ const Profile = () => {
                 type="text"
                 id="name"
                 name="name"
-                defaultValue={user.zip || "empty"}
+                placeholder={user.zip || "empty"}
                 disabled={inputDisabled}
               />
             </div>
@@ -96,7 +96,7 @@ const Profile = () => {
                 type="text"
                 id="name"
                 name="name"
-                defaultValue={user.city || "empty"}
+                placeholder={user.city || "empty"}
                 disabled={inputDisabled}
               />
             </div>
@@ -110,7 +110,7 @@ const Profile = () => {
               type="text"
               id="name"
               name="name"
-              defaultValue={user.address || "empty"}
+              placeholder={user.address || "empty"}
               disabled={inputDisabled}
             />
           </div>
