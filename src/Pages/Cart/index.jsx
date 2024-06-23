@@ -19,20 +19,8 @@ const Cart = () => {
   const [promoCodeApplied, setPromoCodeApplied] = useState(false);
   const [showPromoCodeMessage, setShowPromoCodeMessage] = useState(false);
 
-  const removeFromCart = (id) => {
-    dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
-  };
-
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
-  };
-
-  const increaseQuantity = (id) => {
-    dispatch({ type: "INCREASE_QUANTITY", payload: { id } });
-  };
-
-  const decreaseQuantity = (id) => {
-    dispatch({ type: "DECREASE_QUANTITY", payload: { id } });
   };
 
   const handleSubmit = (event) => {
@@ -89,14 +77,9 @@ const Cart = () => {
       ) : (
         <div className="grid grid-cols-5 gap-24">
           <div className="col-span-3 mt-16 flex flex-col gap-5">
-            {cart.map((product, index) => (
-              <React.Fragment key={product.id + index}>
-                <CartProduct
-                  increaseQuantity={increaseQuantity}
-                  decreaseQuantity={decreaseQuantity}
-                  removeFromCart={removeFromCart}
-                  product={product}
-                />
+            {cart.map((product) => (
+              <React.Fragment key={product.id}>
+                <CartProduct product={product} />
                 <hr />
               </React.Fragment>
             ))}

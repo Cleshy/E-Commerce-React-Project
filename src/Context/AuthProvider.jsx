@@ -8,14 +8,16 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userRole, setUserRole] = useState(null);
   const [userId, setUserId] = useState(null);
+  // We have to check if Authentication is still loading
   const [loadingAuth, setloadingAuth] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Check if user token is already in the localStorage
     const token = localStorage.getItem("token");
-
     if (token) {
       try {
+        // Decode the token from the localStorage and get informations like userId, userRole.
         const decodedToken = jwtDecode(token);
         const userId = decodedToken.userId;
         const userRole = decodedToken.userRole;
@@ -23,6 +25,7 @@ export const AuthProvider = ({ children }) => {
         setUserId(userId);
         setUserRole(userRole);
       } catch (error) {
+        // If decoding doesn't work for some reason.
         console.error("Invalid token:", error);
       }
     } else {

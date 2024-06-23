@@ -1,13 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { formatCurrency } from "../../utils/formatters";
+import { useCart } from "../../context/CartProvider";
 
-const CartProduct = ({
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-  product,
-}) => {
+const CartProduct = ({ product }) => {
+  const { dispatch } = useCart();
+
+  const removeFromCart = (id) => {
+    dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
+  };
+
+  const increaseQuantity = (id) => {
+    dispatch({ type: "INCREASE_QUANTITY", payload: { id } });
+  };
+
+  const decreaseQuantity = (id) => {
+    dispatch({ type: "DECREASE_QUANTITY", payload: { id } });
+  };
+
   return (
     <div className="grid grid-cols-4 gap-8 auto-rows-[10rem] text-sm my-6">
       <img className="col-span-1 self-center w-52" src={product.images[0]} />
@@ -20,7 +30,7 @@ const CartProduct = ({
             {product.title}
           </Link>
           <p className="font-semibold mt-auto">
-            {formatCurrency(product.quantity * product.price)}
+            {formatCurrency(product.price)}
           </p>
         </div>
         <div className="flex flex-col">
