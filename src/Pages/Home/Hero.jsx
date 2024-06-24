@@ -1,7 +1,10 @@
 import HeroImg from "../../assets/hero_img.svg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
 
 const Hero = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <section className="container mt-52 mb-32 mx-auto grid grid-cols-2 gap-16">
       <div>
@@ -15,12 +18,14 @@ const Hero = () => {
           with fast shipping and exceptional customer service.
         </p>
         <div className="flex gap-6">
-          <Link
-            to="/signup"
-            className="border-2 border-rose-500 hover:border-rose-600 bg-rose-500 hover:bg-rose-600 duration-300 py-2 px-5 rounded-full text-white"
-          >
-            Sign Up
-          </Link>
+          {!isLoggedIn && (
+            <Link
+              to="/signup"
+              className="border-2 border-rose-500 hover:border-rose-600 bg-rose-500 hover:bg-rose-600 duration-300 py-2 px-5 rounded-full text-white"
+            >
+              Sign Up
+            </Link>
+          )}
           <Link
             to="/products"
             className="border-2 border-rose-500 hover:bg-rose-500 hover:text-white duration-300 py-2 px-5 rounded-full"

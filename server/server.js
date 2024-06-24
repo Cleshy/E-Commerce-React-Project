@@ -151,10 +151,23 @@ app.get("/profile", (request, response) => {
       "SELECT id, name, `e-mail`, phone, zip, city, address FROM users WHERE id = ?";
     connection.query(query, [userId], (error, result) => {
       if (error) {
-        response.status(400).send("Hiba a queryben.");
+        response.status(400).send("Server error");
       }
       const user = result[0];
       response.status(200).send(user);
+    });
+  } catch (error) {}
+});
+
+app.get("/users", (request, response) => {
+  try {
+    const query = "SELECT * FROM users WHERE role = 1";
+    connection.query(query, (error, result) => {
+      if (error) {
+        response.status(400).send("Server error");
+      }
+      const users = result;
+      response.status(200).send(users);
     });
   } catch (error) {}
 });

@@ -46,7 +46,7 @@ const Navigation = () => {
               </Link>
             </>
           )}
-          <>
+          {userRole !== 0 && (
             <li>
               <Link to="/cart">
                 <FaShoppingCart className="relative hover:text-rose-400 duration-150 text-[1.5rem]" />
@@ -57,7 +57,7 @@ const Navigation = () => {
                 )}
               </Link>
             </li>
-          </>
+          )}
         </ul>
       </nav>
     </header>
