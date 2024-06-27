@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { useMessage } from "../../context/MessageContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("http://localhost:3000/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,14 +30,13 @@ const Login = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.error);
       }
 
       const data = await response.json();
       login(data.token);
-    } catch (error) {
-      console.log("Login error:", error.message);
-    }
+    } catch (error) {}
   };
 
   return (

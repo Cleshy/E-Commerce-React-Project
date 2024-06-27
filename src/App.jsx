@@ -10,6 +10,7 @@ import Navigation from "./components/Navigation.jsx";
 import NotFound from "./Pages/NotFound";
 import { CartProvider } from "./context/CartProvider.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
+import { MessageProvider } from "./context/MessageContext.jsx";
 import Orders from "./Pages/Orders/index.jsx";
 import Users from "./Pages/Users/index.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
@@ -20,29 +21,34 @@ const App = () => {
     <>
       <AuthProvider>
         <CartProvider>
-          <Navigation />
-          <Routes>
-            {/* Static routes */}
-            <Route path="/" element={<Home />} />
-            <Route path="/signin" element={<Login />} />
-            <Route path="/signup" element={<Registration />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/cart" element={<Cart />} />
-            {/* Dynamic routes (ex: productID) */}
-            <Route path="/product/:productID" element={<Product />} />
-            {/* Private routes */}
-            <Route
-              path="/profile"
-              element={<PrivateRoute element={<Profile />} />}
-            />
-            <Route
-              path="/myorders"
-              element={<PrivateRoute element={<Orders />} />}
-            />
-            <Route path="/users" element={<AdminRoute element={<Users />} />} />
-            {/* Not found route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <MessageProvider>
+            <Navigation />
+            <Routes>
+              {/* Static routes */}
+              <Route path="/" element={<Home />} />
+              <Route path="/signin" element={<Login />} />
+              <Route path="/signup" element={<Registration />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/cart" element={<Cart />} />
+              {/* Dynamic routes (ex: productID) */}
+              <Route path="/product/:productID" element={<Product />} />
+              {/* Private routes */}
+              <Route
+                path="/profile"
+                element={<PrivateRoute element={<Profile />} />}
+              />
+              <Route
+                path="/myorders"
+                element={<PrivateRoute element={<Orders />} />}
+              />
+              <Route
+                path="/users"
+                element={<AdminRoute element={<Users />} />}
+              />
+              {/* Not found route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </MessageProvider>
         </CartProvider>
       </AuthProvider>
     </>

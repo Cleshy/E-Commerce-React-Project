@@ -56,7 +56,7 @@ const Profile = () => {
               type="email"
               id="e-mail"
               name="name"
-              defaultValue={user["e-mail"]}
+              defaultValue={user.email}
               disabled
             />
           </div>

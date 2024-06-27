@@ -1,9 +1,9 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { useCart } from "../context/CartProvider";
 import { useAuth } from "../context/AuthProvider";
 import Dropdown from "./Dropdown";
+import Message from "./Message";
 
 const Navigation = () => {
   const { cart } = useCart();
@@ -60,6 +60,7 @@ const Navigation = () => {
           )}
         </ul>
       </nav>
+      <Message />
     </header>
   );
 };
