@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { useMessage } from "../../context/MessageProvider";
 
 const Registration = () => {
   const { login } = useAuth();
+  const { showMessage } = useMessage();
 
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     role: 1,
@@ -40,9 +43,10 @@ const Registration = () => {
 
       if (userData.message === "Registered successfully!") {
         login(userData.token);
+        showMessage(true, "success", "Registered successfully!");
       }
     } catch (error) {
-      console.log("Registration error:", error.message);
+      showMessage(true, "error", "Try again!");
     }
   };
 
@@ -57,17 +61,35 @@ const Registration = () => {
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label
-                  htmlFor="name"
+                  htmlFor="firstName"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Name
+                  First Name
                 </label>
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="firstName"
+                  id="firstName"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="John Doe"
+                  placeholder="John"
+                  onChange={handleInputChange}
+                  autoComplete="off"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="lastName"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Doe"
                   onChange={handleInputChange}
                   autoComplete="off"
                   required

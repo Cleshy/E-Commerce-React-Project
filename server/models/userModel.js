@@ -4,14 +4,17 @@ import { sequelize } from "../config/database.js";
 const User = sequelize.define(
   "User",
   {
-    name: {
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    lastName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
         isEmail: true,
       },
@@ -19,6 +22,10 @@ const User = sequelize.define(
     password: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    isGuest: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
     },
     role: {
       type: DataTypes.SMALLINT,

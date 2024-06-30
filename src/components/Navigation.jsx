@@ -46,21 +46,19 @@ const Navigation = () => {
               </Link>
             </>
           )}
-          {userRole !== 0 && (
-            <li>
-              <Link to="/cart">
-                <FaShoppingCart className="relative hover:text-rose-400 duration-150 text-[1.5rem]" />
-                {totalItems > 0 && (
-                  <span className="absolute text-sm w-6 h-6 bg-rose-200 text-gray-800 font-semibold flex justify-center items-center rounded-full -top-2 -right-7">
-                    {totalItems}
-                  </span>
-                )}
-              </Link>
-            </li>
-          )}
+          <li>
+            <Link to="/cart">
+              <FaShoppingCart className="relative hover:text-rose-400 duration-150 text-[1.5rem]" />
+              {totalItems > 0 && (
+                <span className="absolute text-sm w-6 h-6 bg-rose-200 text-gray-800 font-semibold flex justify-center items-center rounded-full -top-2 -right-7">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+          </li>
         </ul>
       </nav>
-      <Message />
+      <Message type="success" />
     </header>
   );
 };

@@ -86,6 +86,7 @@ export const CartProvider = ({ children }) => {
         applyPromoCode,
         PROMO_CODE,
         DISCOUNT_PERCENTAGE,
+        setDiscount,
       }}
     >
       {children}

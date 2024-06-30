@@ -63,7 +63,7 @@ const loginUser = async (req, res) => {
   }
 };
 
-const getUserProfile = async (req, res) => {
+const getUser = async (req, res) => {
   const userId = req.headers["user-id"];
 
   try {
@@ -86,4 +86,4 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-export { addUser, loginUser, getUserProfile, getAllUsers };
+export { addUser, loginUser, getUser, getAllUsers };

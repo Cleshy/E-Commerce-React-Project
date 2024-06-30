@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
-import { useMessage } from "../../context/MessageContext";
+import { useMessage } from "../../context/MessageProvider";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +9,7 @@ const Login = () => {
     password: "",
   });
   const { login } = useAuth();
+  const { showMessage } = useMessage();
 
   const handleInputChange = (e) => {
     setFormData({
@@ -36,7 +37,10 @@ const Login = () => {
 
       const data = await response.json();
       login(data.token);
-    } catch (error) {}
+      showMessage(true, "success", "Login successful!");
+    } catch (error) {
+      showMessage(true, "error", "Invalid E-mail or Password!");
+    }
   };
 
   return (

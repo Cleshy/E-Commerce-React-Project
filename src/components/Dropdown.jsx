@@ -36,13 +36,15 @@ const Dropdown = () => {
             showDropdown ? "flex" : "hidden"
           } absolute right-0 mt-7 bg-white text-rose-800 border border-t-0 p-3 pt-5 origin-top-right flex flex-col gap-4 w-40`}
         >
-          <div
-            onClick={() => handleNavigationClick("/profile", "/")}
-            className="flex justify-start items-center gap-3 cursor-pointer"
-          >
-            <IoMdSettings className="text-2xl" />
-            <span>Settings</span>
-          </div>
+          {userRole === 1 && (
+            <div
+              onClick={() => handleNavigationClick("/profile", "/")}
+              className="flex justify-start items-center gap-3 cursor-pointer"
+            >
+              <IoMdSettings className="text-2xl" />
+              <span>Settings</span>
+            </div>
+          )}
           {isLoggedIn && userRole === 0 && (
             <div
               onClick={() => handleNavigationClick("/users", "/")}

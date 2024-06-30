@@ -7,10 +7,12 @@ import Product from "./Pages/Product/";
 import Products from "./Pages/Products/";
 import Cart from "./Pages/Cart";
 import Navigation from "./components/Navigation.jsx";
+import Footer from "./components/Footer.jsx";
 import NotFound from "./Pages/NotFound";
+import Checkout from "./Pages/Checkout/index.jsx";
 import { CartProvider } from "./context/CartProvider.jsx";
 import { AuthProvider } from "./context/AuthProvider.jsx";
-import { MessageProvider } from "./context/MessageContext.jsx";
+import { MessageProvider } from "./context/MessageProvider.jsx";
 import Orders from "./Pages/Orders/index.jsx";
 import Users from "./Pages/Users/index.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
@@ -30,6 +32,7 @@ const App = () => {
               <Route path="/signup" element={<Registration />} />
               <Route path="/products" element={<Products />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
               {/* Dynamic routes (ex: productID) */}
               <Route path="/product/:productID" element={<Product />} />
               {/* Private routes */}
@@ -48,6 +51,7 @@ const App = () => {
               {/* Not found route */}
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <Footer />
           </MessageProvider>
         </CartProvider>
       </AuthProvider>

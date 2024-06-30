@@ -28,7 +28,7 @@ const Profile = () => {
   }
 
   return (
-    <section className="container mx-auto mt-36">
+    <section className="container mx-auto my-36">
       <h2 className="text-[2.3rem] font-extrabold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-rose-700">
         Profile Page
       </h2>

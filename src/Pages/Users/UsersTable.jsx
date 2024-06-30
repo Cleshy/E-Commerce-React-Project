@@ -11,6 +11,7 @@ const UsersTable = ({ users }) => {
           <th className="border p-2">Zip</th>
           <th className="border p-2">City</th>
           <th className="border p-2">Address</th>
+          <th className="border p-2">Role</th>
           <th className="border p-2">Edit & Delete</th>
         </tr>
       </thead>
@@ -25,6 +26,7 @@ const UsersTable = ({ users }) => {
                 <td className="border p-3">{user.zip || "-"}</td>
                 <td className="border p-3">{user.city || "-"}</td>
                 <td className="border p-3">{user.address || "-"}</td>
+                <td className="border p-3">{user.role ? "User" : "Admin"}</td>
                 <td className="p-4 flex justify-evenly text-2xl">
                   <FaEdit className="cursor-pointer text-rose-600" />
                   <FaRegTrashAlt className="cursor-pointer " />
