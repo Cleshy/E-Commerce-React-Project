@@ -15,8 +15,9 @@ import { AuthProvider } from "./context/AuthProvider.jsx";
 import { MessageProvider } from "./context/MessageProvider.jsx";
 import Orders from "./Pages/Orders/index.jsx";
 import Users from "./Pages/Users/index.jsx";
-import PrivateRoute from "./components/PrivateRoute.jsx";
 import AdminRoute from "./components/AdminRoute.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
+import CartRoute from "./components/CartRoute.jsx";
 
 const App = () => {
   return (
@@ -32,10 +33,13 @@ const App = () => {
               <Route path="/signup" element={<Registration />} />
               <Route path="/products" element={<Products />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
               {/* Dynamic routes (ex: productID) */}
               <Route path="/product/:productID" element={<Product />} />
               {/* Private routes */}
+              <Route
+                path="/checkout"
+                element={<CartRoute element={<Checkout />} />}
+              />
               <Route
                 path="/profile"
                 element={<PrivateRoute element={<Profile />} />}

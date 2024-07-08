@@ -9,17 +9,8 @@ import { useMessage } from "../../context/MessageProvider";
 import { useAuth } from "../../context/AuthProvider";
 
 const Cart = () => {
-  const {
-    cart,
-    dispatch,
-    discount,
-    applyPromoCode,
-    PROMO_CODE,
-    DISCOUNT_PERCENTAGE,
-  } = useCart();
+  const { cart, dispatch } = useCart();
   const { showMessage } = useMessage();
-  const [promoCodeValid, setPromoCodeValid] = useState(false);
-  const [promoCodeApplied, setPromoCodeApplied] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
   const { isLoggedIn } = useAuth();
@@ -32,12 +23,6 @@ const Cart = () => {
       setShowModal(true);
     }
   };
-
-  // const handleShowModal = () => {
-  //   if (cart.length > 0) {
-  //     setShowModal(true);
-  //   }
-  // };
 
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });

@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import { connectToDatabase } from "./config/database.js";
 import userRoutes from "./routes/userRoutes.js";
+import orderRoutes from "./routes/orderRoutes.js";
 
 const PORT = process.env.PORT;
 
@@ -12,8 +13,9 @@ const corsOptions = {
 };
 
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use("/", userRoutes);
+app.use("/orders", orderRoutes);
 
 const startServer = async () => {
   await connectToDatabase();

@@ -1,13 +1,19 @@
 import { useCart } from "../../context/CartProvider";
 import { formatCurrency } from "../../utils/formatters";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useMessage } from "../../context/MessageProvider";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import { Link, useNavigate } from "react-router-dom";
+import useFetchCurrentUser from "../../hooks/useFetchCurrentUser";
 
 const TAX = 14;
 
 const Checkout = () => {
+  const { isLoggedIn, userId } = useAuth();
+  const { user, loading } = useFetchCurrentUser(userId);
+  const navigate = useNavigate();
+
   const {
     cart,
     discount,
@@ -16,11 +22,91 @@ const Checkout = () => {
     applyPromoCode,
     dispatch,
   } = useCart();
+
   const [promoCodeApplied, setPromoCodeApplied] = useState(false);
   const [promoCodeValid, setPromoCodeValid] = useState(false);
   const { showMessage } = useMessage();
-
   const promoCodeRef = useRef(null);
+
+  const [formData, setFormData] = useState({
+    userId: isLoggedIn ? userId : null,
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    billingAddress: "",
+    billingCity: "",
+    billingZip: "",
+    shippingAddress: "",
+    shippingCity: "",
+    shippingZip: "",
+    sameAsBilling: true,
+    totalAmount: null,
+    status: "pending",
+    isGuest: !isLoggedIn,
+  });
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      setFormData({
+        ...formData,
+        userId: userId,
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        billingAddress: user.billingAddress || "",
+        billingCity: user.billingCity || "",
+        billingZip: user.billingZip || "",
+        shippingAddress: user.shippingAddress || "",
+        shippingCity: user.shippingCity || "",
+        shippingZip: user.shippingZip || "",
+        isGuest: !isLoggedIn,
+      });
+    }
+  }, [isLoggedIn, userId, user]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const clearCart = () => {
+    dispatch({ type: "CLEAR_CART" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const totalAmount = calculateTotal();
+
+    const updatedFormData = {
+      ...formData,
+      totalAmount,
+    };
+
+    try {
+      const response = await fetch("http://localhost:3000/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFormData),
+      });
+
+      const result = await response.json();
+
+      if (result) {
+        showMessage(true, "success", "Ordered successfully!");
+        clearCart();
+        navigate("/myorders");
+      }
+    } catch (error) {
+      showMessage(true, "error", "Something went wrong! Try again later!");
+    }
+  };
 
   const removeFromCart = (id) => {
     dispatch({ type: "REMOVE_FROM_CART", payload: { id } });
@@ -47,8 +133,9 @@ const Checkout = () => {
     return total + TAX;
   };
 
-  const handleSubmit = (event) => {
+  const handlePromoCodeSubmit = (event) => {
     event.preventDefault();
+
     const input = promoCodeRef.current.value;
     const isValid = applyPromoCode(input);
     setPromoCodeApplied(isValid);
@@ -75,31 +162,43 @@ const Checkout = () => {
     <div className="min-h-screen flex flex-col">
       <div className="flex-grow">
         <div className="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full flex gap-4">
-            <div className="w-1/2 pr-4">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full flex gap-8 mt-36 mb-24">
+            <div className="w-1/2">
               <h2 className="text-xl font-extrabold tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-rose-700">
                 Checkout
               </h2>
-              <form className="space-y-4 mt-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    placeholder="First name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    placeholder="Last name"
-                  />
+              <form onSubmit={handleSubmit} className="space-y-4 mt-6">
+                <div className="flex gap-8">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      placeholder="First name"
+                      disabled={isLoggedIn}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      placeholder="Last name"
+                      disabled={isLoggedIn}
+                      required
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
@@ -107,40 +206,137 @@ const Checkout = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                     placeholder="Your email"
+                    disabled={isLoggedIn}
+                    required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Address
+                    Phone
                   </label>
                   <input
                     type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    placeholder="Your address"
+                    placeholder="Your phone"
+                    required
                   />
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    City
-                  </label>
+                <fieldset className="flex flex-col gap-4">
+                  <legend className="mb-3 font-semibold flex">
+                    Billing Address
+                  </legend>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      name="billingAddress"
+                      value={formData.billingAddress}
+                      onChange={handleChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      placeholder="Your address"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      name="billingCity"
+                      value={formData.billingCity}
+                      onChange={handleChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      placeholder="Your city"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700">
+                      Zip Code
+                    </label>
+                    <input
+                      type="text"
+                      name="billingZip"
+                      value={formData.billingZip}
+                      onChange={handleChange}
+                      className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                      placeholder="Your zip code"
+                      required
+                    />
+                  </div>
+                </fieldset>
+                <div className="flex gap-3">
                   <input
-                    type="text"
-                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    placeholder="Your city"
+                    name="sameAsBilling"
+                    id="sameAsBilling"
+                    type="checkbox"
+                    onChange={handleChange}
+                    defaultChecked
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Zip Code
+                  <label htmlFor="sameAsBilling">
+                    Delivery address is same as Billing address
                   </label>
-                  <input
-                    type="text"
-                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-                    placeholder="Your zip code"
-                  />
                 </div>
+                {!formData.sameAsBilling && (
+                  <fieldset className="flex flex-col gap-4">
+                    <legend className="mb-3 font-semibold flex">
+                      Delivery address
+                    </legend>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Address
+                      </label>
+                      <input
+                        type="text"
+                        name="shippingAddress"
+                        value={formData.shippingAddress}
+                        onChange={handleChange}
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                        placeholder="Your address"
+                        required={sameAsBilling || false}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        City
+                      </label>
+                      <input
+                        type="text"
+                        name="shippingCity"
+                        value={formData.shippingCity}
+                        onChange={handleChange}
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                        placeholder="Your city"
+                        required={sameAsBilling || false}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700">
+                        Zip Code
+                      </label>
+                      <input
+                        type="text"
+                        name="shippingZip"
+                        value={formData.shippingZip}
+                        onChange={handleChange}
+                        className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                        placeholder="Your zip code"
+                        required={sameAsBilling || false}
+                      />
+                    </div>
+                  </fieldset>
+                )}
                 <div>
                   <button
                     type="submit"
@@ -188,7 +384,7 @@ const Checkout = () => {
                     );
                   })}
                 <div className="flex flex-col gap-5">
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handlePromoCodeSubmit}>
                     <input
                       className="border border-gray-300 py-2 px-4 focus:border-rose-600 rounded-s-md"
                       type="text"

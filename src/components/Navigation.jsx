@@ -58,7 +58,7 @@ const Navigation = () => {
           </li>
         </ul>
       </nav>
-      <Message type="success" />
+      <Message />
     </header>
   );
 };

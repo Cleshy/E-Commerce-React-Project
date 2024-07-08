@@ -5,9 +5,9 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const addUser = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
-  if (!name || !email || !password) {
+  if (!firstName || !lastName || !email || !password) {
     return res
       .status(400)
       .json({ error: "Name, E-mail and Password are required!" });
@@ -17,7 +17,8 @@ const addUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = await models.User.create({
-      name,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
     });
@@ -33,6 +34,20 @@ const addUser = async (req, res) => {
     console.error("Error during registration:", error);
     res.status(500).json({ error: "Error registering user" });
   }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleted = await models.User.destroy({ where: { id: id } });
+
+    if (!deleted) {
+      return res.status(401).send({ error: "Something went wrong!" });
+    }
+
+    res.status(200).send({ message: "User deleted successfully!" });
+  } catch (error) {}
 };
 
 const loginUser = async (req, res) => {
@@ -67,7 +82,7 @@ const getUser = async (req, res) => {
   const userId = req.headers["user-id"];
 
   try {
-    const user = models.User.findOne({ where: { id: userId } });
+    const user = await models.User.findOne({ where: { id: userId } });
 
     if (!user) {
       return res.status(500).json({ error: "User not found." });
@@ -86,4 +101,4 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-export { addUser, loginUser, getUser, getAllUsers };
+export { addUser, deleteUser, loginUser, getUser, getAllUsers };
